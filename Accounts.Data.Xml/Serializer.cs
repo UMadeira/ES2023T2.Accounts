@@ -13,7 +13,7 @@ namespace Accounts.Data.Xml
             }
         }
 
-        public static Organization Deserialize( string filename )
+        public static Organization? Deserialize( string filename )
         {
             var formater = new XmlSerializer(typeof(Organization));
             using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read ))

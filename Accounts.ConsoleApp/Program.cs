@@ -30,6 +30,7 @@ namespace Accounts.ConsoleApp
 
         public static void ShowOrganization( Organization organization )
         {
+            Console.WriteLine();
             Console.WriteLine($"Organization: {organization.Name}");
             foreach ( var user in organization.Users )
             {
