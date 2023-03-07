@@ -1,6 +1,8 @@
 ﻿
 using Accounts.Data;
 using Accounts.Data.Xml;
+using Accounts.Store;
+using Microsoft.EntityFrameworkCore;
 
 namespace Accounts.ConsoleApp
 {
@@ -10,11 +12,27 @@ namespace Accounts.ConsoleApp
         {
             Console.WriteLine("Accounts - v1.0");
 
+            using (var context = new AccountsContext())
+            {
+                //context.Database.EnsureCreated();
+
+                if (context.Organizations.Count() == 0)
+                { 
+                    context.Organizations.Add(CreateOrganization() );
+                    context.SaveChanges();
+                }
+
+                var organization = context.Organizations
+                    .Include( e => e.Users )
+                    .FirstOrDefault();
+                ShowOrganization( organization );
+            }
+
             //var organization = CreateOrganization();
             //organization.Serialize("UMa2.xml");
 
-            var organization = Serializer.Deserialize("UMa.xml");            
-            ShowOrganization( organization );
+            //var organization = Serializer.Deserialize("UMa.xml");            
+            //ShowOrganization( organization );
         }
 
         public static Organization CreateOrganization()
